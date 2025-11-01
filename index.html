@@ -1,0 +1,2938 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salão de Beleza & Estética</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+    <style>
+      body {
+        box-sizing: border-box;
+      }
+
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+      * {
+        font-family: "Poppins", sans-serif;
+      }
+
+      /* Preloader */
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #fce7f3, #f3e8ff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      }
+
+      .preloader.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .loader {
+        text-align: center;
+      }
+
+      .loader h2 {
+        color: #ec4899;
+        font-size: 2rem;
+        margin-bottom: 20px;
+        animation: pulse 2s infinite;
+      }
+
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid #f3e8ff;
+        border-top: 4px solid #ec4899;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+
+      /* Menu Hambúrguer */
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 4px;
+      }
+
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background: #ec4899;
+        margin: 3px 0;
+        transition: 0.3s;
+        border-radius: 2px;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+
+      /* Animações */
+      .fade-in {
+        animation: fadeIn 1s ease-in;
+      }
+
+      .slide-up {
+        animation: slideUp 0.8s ease-out;
+      }
+
+      .bounce-in {
+        animation: bounceIn 1s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes bounceIn {
+        0% {
+          transform: scale(0.3);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        70% {
+          transform: scale(0.9);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .logo {
+        width: 200vh;
+        height: 250px;
+        border-radius: 10px;
+      }
+
+      .carousel-image {
+        width: 100%;
+        height: 195px;
+        border-radius: 2%;
+      }
+
+      /* Hover Effects */
+      .hover-scale {
+        transition: transform 0.3s ease;
+      }
+
+      .hover-scale:hover {
+        transform: scale(1.05);
+      }
+
+      /* Carousel */
+      .carousel-container {
+        overflow: hidden;
+        position: relative;
+      }
+
+      .carousel-track {
+        display: flex;
+        transition: transform 0.5s ease;
+      }
+
+      .carousel-slide {
+        min-width: 100%;
+        flex-shrink: 0;
+      }
+
+      /* WhatsApp Float Button */
+      .whatsapp-float {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #25d366;
+        color: white;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+        z-index: 1000;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      /* Mobile Menu */
+      .mobile-menu {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .mobile-menu.active {
+        transform: translateX(0);
+      }
+
+      /* Service Cards Animation */
+      .service-card {
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #fce7f3, #f3e8ff);
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(236, 72, 153, 0.2);
+      }
+
+      /* Table Animation */
+      .service-table tr {
+        transition: all 0.3s ease;
+      }
+
+      .service-table tr:hover {
+        background: linear-gradient(135deg, #fce7f3, #f3e8ff);
+        transform: scale(1.02);
+      }
+
+      * {
+      box-sizing: border-box;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    .title {
+      font-size: 48px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 16px 0;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .subtitle {
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .video-card {
+      background: #ffffff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .video-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    }
+
+    .video-placeholder {
+      width: 100%;
+      height: 250px;
+      background: linear-gradient(135deg, #ead4ec 0%, #ece1eb 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-placeholder::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    }
+
+
+    .video-card:hover .play-icon {
+      transform: scale(1.1);
+      background: #ffffff;
+    }
+
+    .video-info {
+      padding: 24px;
+    }
+
+    .video-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a202c;
+      margin: 0 0 8px 0;
+    }
+
+    .video-description {
+      font-size: 14px;
+      color: #718096;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .upload-hint {
+      text-align: center;
+      margin-top: 40px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.8s ease-out 0.4s both;
+    }
+
+    .upload-hint-text {
+      color: rgba(0, 0, 0, 0.95);
+      font-size: 25px;
+      margin: 0 0 12px 0;
+      font-weight: 600;
+       
+    }
+
+    .upload-hint-subtext {
+      color: rgba(7, 7, 7, 0.8);
+      font-size: 20px;
+      margin: 0;
+      border-bottom: 1px solid black;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 5px;
+
+
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .title {
+        font-size: 36px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+   
+
+    .header {
+      padding: 32px 48px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    .salon-name {
+      font-size: 48px;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+      color: #2c2c2c;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .tagline {
+      font-size: 18px;
+      color: #be185d;
+      margin: 0;
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .slider-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .slide-content {
+      max-width: 900px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      padding: 64px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .image-placeholder {
+      width: 100%;
+      height: 500px;
+      background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .image-placeholder svg {
+      width: 120px;
+      height: 120px;
+      opacity: 0.4;
+    }
+
+    .image-text {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(44, 44, 44, 0.85);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Arial', sans-serif;
+      font-weight: 500;
+    }
+
+    .slide-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: #2c2c2c;
+      margin: 0 0 16px 0;
+      letter-spacing: 1px;
+    }
+
+    .slide-description {
+      font-size: 20px;
+      color: #666;
+      margin: 0 0 32px 0;
+      line-height: 1.6;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .cta-button {
+      background: #be185d;
+      color: white;
+      border: none;
+      padding: 18px 48px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .cta-button:hover {
+      background: #9d174d;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(190, 24, 93, 0.3);
+    }
+
+    .navigation {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 5;
+    }
+
+    .nav-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      border: 2px solid #be185d;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nav-dot.active {
+      background: #be185d;
+      transform: scale(1.2);
+    }
+
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 5;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .nav-arrow:hover {
+      background: white;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .nav-arrow.prev {
+      left: 32px;
+    }
+
+    .nav-arrow.next {
+      right: 32px;
+    }
+
+    .nav-arrow svg {
+      width: 24px;
+      height: 24px;
+      fill: #be185d;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 20px 16px;
+      }
+
+      .salon-name {
+        font-size: 28px;
+        letter-spacing: 1px;
+      }
+
+      .tagline {
+        font-size: 14px;
+      }
+
+      .slide {
+        padding: 24px 16px;
+      }
+
+      .slide-content {
+        padding: 24px 20px;
+        border-radius: 16px;
+      }
+
+      .slide-title {
+        font-size: 24px;
+        margin-bottom: 12px;
+      }
+
+      .slide-description {
+        font-size: 16px;
+        margin-bottom: 24px;
+      }
+
+      .image-placeholder {
+        height: 300px;
+        margin-bottom: 0;
+      }
+
+      .cta-button {
+        padding: 14px 32px;
+        font-size: 16px;
+      }
+
+      .nav-arrow {
+        width: 40px;
+        height: 40px;
+      }
+
+      .nav-arrow.prev {
+        left: 12px;
+      }
+
+      .nav-arrow.next {
+        right: 12px;
+      }
+
+      .navigation {
+        bottom: 20px;
+      }
+
+      .nav-dot {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 16px 12px;
+      }
+
+      .salon-name {
+        font-size: 24px;
+      }
+
+      .tagline {
+        font-size: 12px;
+      }
+
+      .slide {
+        padding: 16px 12px;
+      }
+
+      .slide-content {
+        padding: 20px 16px;
+      }
+
+      .slide-title {
+        font-size: 20px;
+      }
+
+      .slide-description {
+        font-size: 14px;
+      }
+
+      .image-placeholder {
+        height: 250px;
+      }
+
+      .cta-button {
+        padding: 12px 24px;
+        font-size: 14px;
+      }
+
+      .nav-arrow {
+        width: 36px;
+        height: 36px;
+      }
+
+      .carousel{
+      max-height: 170px;
+      }
+      
+      .nav-arrow svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .carousel{
+      width: 100%;
+      height: 380px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    </style>
+
+  
+  </head>
+  <body class="bg-gradient-to-br from-pink-50 to-purple-50">
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+      <div class="loader">
+        <div class="text-4xl font-bold text-pink-600">
+          <i class="fas fa-spa mr-2"></i>
+        </div>
+        <h2>Salão de Beleza & Estética</h2>
+        <div class="spinner"></div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header
+      class="bg-white/90 backdrop-blur-md shadow-lg fixed w-full top-0 z-50"
+    >
+      <nav
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <div class="text-2xl font-bold text-pink-600">
+          <i class="fas fa-spa mr-2"></i>
+          Salão & Estética
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-8">
+          <a
+            href="#home"
+            class="text-gray-700 hover:text-pink-600 transition-colors"
+            >Início</a
+          >
+          <a
+            href="#about"
+            class="text-gray-700 hover:text-pink-600 transition-colors"
+            >Quem Somos</a
+          >
+          <a
+            href="#services"
+            class="text-gray-700 hover:text-pink-600 transition-colors"
+            >Serviços</a
+          >
+          <a
+            href="#noiva"
+            class="text-gray-700 hover:text-pink-600 transition-colors"
+            >Dia das Noivas</a
+          >
+          <a
+            href="#testimonials"
+            class="text-gray-700 hover:text-pink-600 transition-colors"
+            >Depoimentos</a
+          >
+          <a
+            href="#contact"
+            class="text-gray-700 hover:text-pink-600 transition-colors"
+            >Contato</a
+          >
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+
+      <!-- Mobile Menu -->
+      <div
+        class="mobile-menu fixed top-0 left-0 w-full h-full bg-gradient-to-br from-rose-50/95 to-pink-100/95 backdrop-blur-md z-40 md:hidden"
+        id="mobileMenu"
+      >
+        <div class="absolute top-4 right-4 z-50">
+          <div class="hamburger" id="hamburgerClose">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        <div
+          class="flex flex-col items-center justify-center min-h-full w-full space-y-6 text-xl bg-gradient-to-br from-rose-50 to-pink-100 px-8 py-20"
+        >
+          <div class="text-center mb-8">
+            <div class="text-3xl font-bold text-pink-600 mb-2">
+              <i class="fas fa-spa mr-2"></i>
+              Salão & Estética
+            </div>
+            <p class="text-sm text-gray-500">Beleza & Bem-estar</p>
+          </div>
+          <a
+            href="#home"
+            class="text-gray-700 hover:text-pink-600 transition-colors mobile-link px-8 py-4 rounded-lg hover:bg-rose-100 w-full text-center"
+            >Início</a
+          >
+          <a
+            href="#about"
+            class="text-gray-700 hover:text-pink-600 transition-colors mobile-link px-8 py-4 rounded-lg hover:bg-rose-100 w-full text-center"
+            >Quem Somos</a
+          >
+          <a
+            href="#services"
+            class="text-gray-700 hover:text-pink-600 transition-colors mobile-link px-8 py-4 rounded-lg hover:bg-rose-100 w-full text-center"
+            >Serviços</a
+          >
+          <a
+            href="#noiva"
+            class="text-gray-700 hover:text-pink-600 transition-colors mobile-link px-8 py-4 rounded-lg hover:bg-rose-100 w-full text-center"
+            >Dia das Noivas</a
+          >
+          <a
+            href="#testimonials"
+            class="text-gray-700 hover:text-pink-600 transition-colors mobile-link px-8 py-4 rounded-lg hover:bg-rose-100 w-full text-center"
+            >Depoimentos</a
+          >
+          <a
+            href="#contact"
+            class="text-gray-700 hover:text-pink-600 transition-colors mobile-link px-8 py-4 rounded-lg hover:bg-rose-100 w-full text-center"
+            >Contato</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section
+      id="home"
+      class="min-h-full pt-20 bg-gradient-to-br from-pink-100 to-purple-100"
+    >
+      <div class="container mx-auto px-4 py-20 text-center">
+        <h1 class="text-5xl md:text-7xl font-bold text-pink-600 mb-6 fade-in">
+          Beleza & Estética
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-700 mb-8 slide-up">
+          Transforme sua beleza com nossos serviços exclusivos
+        </p>
+        <button>
+        <a
+          href="https://wa.me/5571993477268?text=Olá, vim pelo site e gostaria de agendar um horário."
+          class="bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition-colors"
+        ><i class="fab fa-whatsapp mr-1"></i>
+          Agende Agora!
+        </a></button>
+      </div>
+    </section>
+
+    <!-- Quem Somos -->
+    <section id="about" class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-pink-600 mb-16">
+          Quem Somos
+        </h2>
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div class="space-y-6">
+            <h3 class="text-2xl font-semibold text-gray-800">Nossa História</h3>
+            <p class="text-gray-600 leading-relaxed">
+              Somos duas amigas apaixonadas pela arte da beleza que decidiram
+              unir forças para criar um espaço único de cuidado e bem-estar. Com
+              anos de experiência e dedicação, oferecemos serviços
+              personalizados que realçam a beleza natural de cada cliente.
+            </p>
+            <p class="text-gray-600 leading-relaxed">
+              Nossa missão é proporcionar momentos de relaxamento e
+              transformação, sempre com profissionalismo e carinho especial para
+              cada pessoa que nos visita.
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-1">
+            <div
+              class="bg-gradient-to-br from-pink-200 to-purple-200 p-6 rounded-lg text-center hover-scale"
+            >
+              <div class="">
+                <img src="img/sandra.jpg" class="logo" />
+              </div>
+
+              <h4 class="font-semibold text-gray-800">Sandra</h4>
+              <p class="text-sm text-gray-600">
+                Especialista em Cabelos & Estética
+              </p>
+            </div>
+            <div
+              class="bg-gradient-to-br from-purple-200 to-pink-200 p-6 rounded-lg text-center hover-scale"
+            >
+              <div class="">
+                <img src="img/andresa.jpg" class="logo" />
+              </div>
+              <h4 class="font-semibold text-gray-800">Andresa</h4>
+              <p class="text-sm text-gray-600">
+                Especialista em Alongamento de Unhas
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <img src="img/noiva.png" alt="imagem"/>
+
+    <!-- Slide de Imagens -->
+    <section class="py-20 bg-gradient-to-br from-pink-50 to-purple-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-pink-600 mb-16">
+          Nosso Ambiente
+        </h2>
+        <div
+          class="carousel-container max-w-4xl mx-auto rounded-lg overflow-hidden shadow-xl"
+        >
+          <div class="carousel-track" id="carousel">
+            <div
+              class="carousel-slide bg-gradient-to-br from  h-96 flex items-center justify-center"
+            >
+              <div class="text-center text-white">
+                <img src="img/noiva.png" class="carousel" />
+
+         
+              </div>
+            </div>
+            <div
+              class="carousel-slide bg-gradient-to-br h-96 flex items-center justify-center"
+            >
+              <div class="text-center text-white">
+                <img src="img/noiva.png" class="carousel" />
+            
+              </div>
+            </div>
+            <div
+              class="carousel-slide bg-gradient-to-br  h-96 flex items-center justify-center"
+            >
+              <div class="text-center text-white">
+                <img src="img/noiva.png" class="carousel" />
+               
+              </div>
+            </div>
+            <div
+              class="carousel-slide bg-gradient-to-br  h-96 flex items-center justify-center"
+            >
+              <div class="text-center text-white">
+                <img src="img/noiva.png" class="carousel" />
+               
+              </div>
+            </div>
+          </div>
+          <button
+            class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 p-2 rounded-full"
+            onclick="prevSlide()"
+          >
+            <i class="fas fa-chevron-left "></i>
+          </button>
+          <button
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 p-2 rounded-full"
+            onclick="nextSlide()"
+          >
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards de Serviços -->
+    <section class="py-20 bg-white" id="services">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-pink-600 mb-16">
+          Nossos Serviços
+        </h2>
+        <div
+          class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"
+        >
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-cut text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Cortes
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Cortes modernos e personalizados
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 45,00
+              </div>
+              <button
+                onclick="agendarServico('Corte Feminino', 'R$ 45,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i
+                  class="fas fa-paint-brush text-white text-lg sm:text-2xl"
+                ></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Coloração
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Cores vibrantes e naturais
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 80,00
+              </div>
+              <button
+                onclick="agendarServico('Coloração', 'R$ 80,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-spa text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Tratamentos
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Cuidados especiais para seus cabelos
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 50,00
+              </div>
+              <button
+                onclick="agendarServico('Tratamentos Capilares', 'R$ 50,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i
+                  class="fas fa-hand-sparkles text-white text-lg sm:text-2xl"
+                ></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Manicure
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Unhas sempre perfeitas
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 25,00
+              </div>
+              <button
+                onclick="agendarServico('Manicure', 'R$ 25,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-eye text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Sobrancelhas
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Design perfeito para seu rosto
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 30,00
+              </div>
+              <button
+                onclick="agendarServico('Design de Sobrancelhas', 'R$ 30,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-leaf text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Limpeza de Pele
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Pele saudável e radiante
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 60,00
+              </div>
+              <button
+                onclick="agendarServico('Limpeza de Pele', 'R$ 60,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-magic text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Maquiagem
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Para todas as ocasiões
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 70,00
+              </div>
+              <button
+                onclick="agendarServico('Maquiagem', 'R$ 70,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-heart text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Massagens
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Relaxamento total
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 90,00
+              </div>
+              <button
+                onclick="agendarServico('Massagens Relaxantes', 'R$ 90,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-spa text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                SPA dos Pés
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Cuidado completo para seus pés
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 55,00
+              </div>
+              <button
+                onclick="agendarServico('SPA dos Pés', 'R$ 55,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-hand-paper text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Alongamento Gel
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Unhas longas e resistentes
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 65,00
+              </div>
+              <button
+                onclick="agendarServico('Alongamento em Gel', 'R$ 65,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-gem text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Gel na Tips
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Aplicação profissional de gel
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 45,00
+              </div>
+              <button
+                onclick="agendarServico('Gel na Tips', 'R$ 45,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-star text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Mold F1
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Técnica avançada de moldagem
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 75,00
+              </div>
+              <button
+                onclick="agendarServico('Mold F1', 'R$ 75,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-crown text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Postiça Realista
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Extensões naturais e elegantes
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 120,00
+              </div>
+              <button
+                onclick="agendarServico('Postiça Realista', 'R$ 120,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-shield-alt text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Fibra de Vidro
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Fortalecimento e resistência
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 55,00
+              </div>
+              <button
+                onclick="agendarServico('Fibra de Vidro', 'R$ 55,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-palette text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Esmaltação Gel
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Durabilidade e brilho intenso
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 35,00
+              </div>
+              <button
+                onclick="agendarServico('Esmaltação em Gel', 'R$ 35,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-lock text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Blindagem
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Proteção máxima para unhas
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 40,00
+              </div>
+              <button
+                onclick="agendarServico('Blindagem', 'R$ 40,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-tint text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Banho de Gel
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Tratamento hidratante especial
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 50,00
+              </div>
+              <button
+                onclick="agendarServico('Banho de Gel', 'R$ 50,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+
+          <!-- Podologia -->
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-foot-print text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Podologia
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Cuidados especializados para os pés
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 70,00
+              </div>
+              <button
+                onclick="agendarServico('Podologia', 'R$ 70,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-cut text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Corte de Unhas
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Corte e lixamento profissional
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 35,00
+              </div>
+              <button
+                onclick="agendarServico('Corte de Unhas dos Pés', 'R$ 35,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-band-aid text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Tratamento Calos
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Remoção e tratamento de calosidades
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 45,00
+              </div>
+              <button
+                onclick="agendarServico('Tratamento de Calos', 'R$ 45,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+
+          <!-- Depilação -->
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-fire text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Depilação Cera
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Depilação com cera quente
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 40,00
+              </div>
+              <button
+                onclick="agendarServico('Depilação com Cera', 'R$ 40,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-snowflake text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Depilação Fria
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Depilação com cera fria
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 35,00
+              </div>
+              <button
+                onclick="agendarServico('Depilação Fria', 'R$ 35,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i
+                  class="fas fa-laser-pointer text-white text-lg sm:text-2xl"
+                ></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Depilação Laser
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Depilação a laser definitiva
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 150,00
+              </div>
+              <button
+                onclick="agendarServico('Depilação a Laser', 'R$ 150,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+
+          <!-- Estética Facial -->
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-smile text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Peeling Facial
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Renovação celular profunda
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 80,00
+              </div>
+              <button
+                onclick="agendarServico('Peeling Facial', 'R$ 80,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-water text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Hidratação Facial
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Hidratação profunda da pele
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 65,00
+              </div>
+              <button
+                onclick="agendarServico('Hidratação Facial', 'R$ 65,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-sun text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Tratamento Acne
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Tratamento especializado para acne
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 90,00
+              </div>
+              <button
+                onclick="agendarServico('Tratamento de Acne', 'R$ 90,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+
+          <!-- Estética Corporal -->
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i class="fas fa-dumbbell text-white text-lg sm:text-2xl"></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Drenagem Linfática
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Massagem para reduzir inchaço
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 85,00
+              </div>
+              <button
+                onclick="agendarServico('Drenagem Linfática', 'R$ 85,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i
+                  class="fas fa-wave-square text-white text-lg sm:text-2xl"
+                ></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Radiofrequência
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Firmeza e rejuvenescimento
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-purple-600 mb-2 sm:mb-3"
+              >
+                R$ 120,00
+              </div>
+              <button
+                onclick="agendarServico('Radiofrequência', 'R$ 120,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="service-card p-3 sm:p-6 rounded-lg shadow-lg hover-scale flex flex-col h-full"
+          >
+            <div class="text-center flex-grow flex flex-col">
+              <div
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center"
+              >
+                <i
+                  class="fas fa-compress-arrows-alt text-white text-lg sm:text-2xl"
+                ></i>
+              </div>
+              <h3 class="text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
+                Criolipólise
+              </h3>
+              <p
+                class="text-xs sm:text-base text-gray-600 mb-2 sm:mb-3 flex-grow"
+              >
+                Redução de gordura localizada
+              </p>
+              <div
+                class="text-lg sm:text-2xl font-bold text-pink-600 mb-2 sm:mb-3"
+              >
+                R$ 200,00
+              </div>
+              <button
+                onclick="agendarServico('Criolipólise', 'R$ 200,00')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors w-full mt-auto"
+              >
+                <i class="fab fa-whatsapp mr-1"></i>Agendar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Card Especial Dia das Noivas -->
+    <section
+      id="noiva"
+      class="py-20 bg-gradient-to-br from-rose-100 to-pink-100">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-pink-600 mb-16">
+         ✨ Dia da Noiva ✨
+        </h2>
+       </div>
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div
+            class="bg-white rounded-2xl shadow-2xl overflow-hidden border-4 border-gradient-to-r from-rose-300 to-pink-300"
+          >
+            <div class="relative">
+              <img src="img/noiva.png" alt="Dia da Noiva" />
+              <!-- Imagem da Noiva -->
+              <div
+                class="h-64 md:h-80 bg-gradient-to-br from-rose-200 to-pink-200 flex items-center justify-center relative overflow-hidden"
+              >
+                <img
+                  id="noivaImage"
+                  src=""
+                  alt="Dia da Noiva - Salão de Beleza"
+                  class="w-full h-full object-cover hidden"
+                  onerror="this.style.display='none'; document.getElementById('noivaPlaceholder').style.display='flex';"
+                />
+                <div
+                  id="noivaPlaceholder"
+                  class="flex flex-col items-center justify-center text-center p-8"
+                >
+                  <div
+                    class="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-6 shadow-lg"
+                  >
+                    <i class="fas fa-heart text-4xl text-rose-500"></i>
+                  </div>
+                  <h3 class="text-2xl font-bold text-rose-600 mb-2">
+                    Dia da Noiva
+                  </h3>
+                  <p class="text-rose-500 text-lg">
+                    Seu dia especial merece cuidados especiais
+                  </p>
+                </div>
+                <!-- Overlay decorativo -->
+                <div class="absolute top-4 left-4">
+                  <div
+                    class="bg-white/90 text-rose-600 px-0 py-1 rounded-full shadow-lg"
+                  >
+                    <span class="text-rose-600 font-bold text-sm"
+                      >✨ ESPECIAL ✨</span
+                    >
+                  </div>
+                </div>
+                <div class="absolute top-4 right-4">
+                  <div
+                    class="bg-rose-500 text-white px-3 py-1 rounded-full text-sm font-semibold"
+                  >
+                    💍 NOIVA
+                  </div>
+                </div>
+              </div>
+
+              <!-- Conteúdo do Card -->
+              <div class="p-8">
+                <div class="text-center mb-8">
+                  <h2 class="text-4xl font-bold text-rose-600 mb-4">
+                    <i class="fas fa-crown mr-2"></i>
+                    Pacote Dia da Noiva
+                  </h2>
+                  <p class="text-gray-700 text-lg leading-relaxed mb-6">
+                    Transforme seu grande dia em um momento ainda mais especial
+                    com nosso pacote completo para noiva. Cuidamos de cada
+                    detalhe para que você se sinta radiante e confiante no
+                    altar.
+                  </p>
+                </div>
+
+                <!-- Serviços Inclusos -->
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                  <div class="bg-rose-50 p-6 rounded-xl border border-rose-200">
+                    <h4
+                      class="text-xl font-semibold text-rose-700 mb-4 flex items-center"
+                    >
+                      <i class="fas fa-sparkles mr-2"></i>
+                      Beleza Completa
+                    </h4>
+                    <ul class="space-y-2 text-gray-700">
+                      <li class="flex items-center">
+                        <i class="fas fa-check text-rose-500 mr-2"></i> Penteado
+                        de Noiva
+                      </li>
+                      <li class="flex items-center">
+                        <i class="fas fa-check text-rose-500 mr-2"></i>
+                        Maquiagem Profissional
+                      </li>
+                       <li class="flex items-center">
+                        <i class="fas fa-check text-rose-500 mr-2"></i> Cílios
+                      </li>
+                      <li class="flex items-center">
+                        <i class="fas fa-check text-rose-500 mr-2"></i> Sobrancelhas
+                      </li>
+                      <li class="flex items-center">
+                        <i class="fas fa-check text-rose-500 mr-2"></i> Designer e alongamento de unhas
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-pink-50 p-6 rounded-xl border border-pink-200">
+                    <h4
+                      class="text-xl font-semibold text-pink-700 mb-4 flex items-center"
+                    >
+                      <i class="fas fa-heart mr-2"></i>
+                      Cuidados Especiais
+                    </h4>
+                    <ul class="space-y-2 text-gray-700">
+                      <li class="flex items-center">
+                        <i class="fas fa-check text-pink-500 mr-2"></i> Limpeza de Pele
+                       
+                      </li>
+                       <li class="flex items-center">
+                        <i class="fas fa-check text-pink-500 mr-2"></i> SPÁ dos Pés
+                      </li>
+                      <li class="flex items-center">
+                        <i class="fas fa-check text-pink-500 mr-2"></i> Depilação
+                      </li>
+                      <li class="flex items-center">
+                        <i class="fas fa-check text-pink-500 mr-2"></i> Massagem Relaxante
+                        
+                      </li>
+                      <li class="flex items-center">
+                        <i class="fas fa-check text-pink-500 mr-2"></i> Hidratação e cronograma capilar pré-casamento
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Preço e Botão -->
+                <div
+                  class="text-center bg-gradient-to-r from-rose-500 to-pink-500 text-white p-8 rounded-xl"
+                >
+                  <div class="mb-4">
+                    <span class="text-2xl font-light"
+                      >Pacote Completo por apenas</span
+                    >
+                    <div class="text-5xl font-bold mt-2">R$ 350,00</div>
+                    <span class="text-rose-100 text-lg"
+                      >*Agendamento antecipado necessário</span
+                    >
+                  </div>
+
+                  <button
+                    onclick="agendarNoiva()"
+                    class="bg-white text-rose-600 px-5 py-2 rounded-full text-xl font-bold hover:bg-rose-50 transition-all transform hover:scale-105 shadow-lg"
+                  >
+                    <i class="fab fa-whatsapp mr-2 text-green-500"></i>
+                    Agendar Dia da Noiva
+                  </button>
+
+                  <p class="text-rose-100 text-sm mt-4">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Reserve seu Dia da Noiva agora!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Depoimentos -->
+    <section id="testimonials" class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-pink-600 mb-16">
+          O Que Dizem Nossos Clientes
+        </h2>
+        <div class="relative max-w-4xl mx-auto">
+          <div class="testimonial-carousel overflow-hidden rounded-lg">
+            <div
+              class="testimonial-track flex transition-transform duration-500 ease-in-out"
+              id="testimonialTrack"
+            >
+              <div
+                class="testimonial-slide min-w-full flex-shrink-0 px-2 sm:px-4 flex justify-center items-center"
+              >
+                <div
+                  class="bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-pink-100 w-full max-w-xs sm:max-w-sm lg:max-w-md mx-auto relative overflow-hidden"
+                >
+                  <div
+                    class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-purple-500"
+                  ></div>
+                  <div class="text-center">
+                    <div
+                      class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center shadow-lg"
+                    >
+                      <i
+                        class="fas fa-quote-left text-white text-sm sm:text-lg"
+                      ></i>
+                    </div>
+                    <p
+                      class="text-gray-700 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 font-medium px-2"
+                    >
+                      "Atendimento excepcional! Saio sempre renovada e feliz.
+                      Recomendo muito!"
+                    </p>
+                    <div
+                      class="text-yellow-400 mb-2 sm:mb-3 text-sm sm:text-base"
+                    >
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <div class="border-t border-pink-100 pt-2 sm:pt-3">
+                      <h4 class="text-sm sm:text-base font-bold text-gray-800">
+                        Maria Silva
+                      </h4>
+                      <p class="text-xs text-pink-600 font-medium">
+                        Cliente Satisfeita
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="testimonial-slide min-w-full flex-shrink-0 px-2 sm:px-4 flex justify-center items-center"
+              >
+                <div
+                  class="bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-purple-100 w-full max-w-xs sm:max-w-sm lg:max-w-md mx-auto relative overflow-hidden"
+                >
+                  <div
+                    class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500"
+                  ></div>
+                  <div class="text-center">
+                    <div
+                      class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center shadow-lg"
+                    >
+                      <i
+                        class="fas fa-quote-left text-white text-sm sm:text-lg"
+                      ></i>
+                    </div>
+                    <p
+                      class="text-gray-700 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 font-medium px-2"
+                    >
+                      "Profissionais incríveis! Meu cabelo nunca esteve tão
+                      bonito. Ambiente acolhedor!"
+                    </p>
+                    <div
+                      class="text-yellow-400 mb-2 sm:mb-3 text-sm sm:text-base"
+                    >
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <div class="border-t border-purple-100 pt-2 sm:pt-3">
+                      <h4 class="text-sm sm:text-base font-bold text-gray-800">
+                        Ana Costa
+                      </h4>
+                      <p class="text-xs text-purple-600 font-medium">
+                        Cliente Satisfeita
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="testimonial-slide min-w-full flex-shrink-0 px-2 sm:px-4 flex justify-center items-center"
+              >
+                <div
+                  class="bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-pink-100 w-full max-w-xs sm:max-w-sm lg:max-w-md mx-auto relative overflow-hidden"
+                >
+                  <div
+                    class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-purple-500"
+                  ></div>
+                  <div class="text-center">
+                    <div
+                      class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center shadow-lg"
+                    >
+                      <i
+                        class="fas fa-quote-left text-white text-sm sm:text-lg"
+                      ></i>
+                    </div>
+                    <p
+                      class="text-gray-700 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 font-medium px-2"
+                    >
+                      "Melhor salão da região! Cuidado, carinho e resultado
+                      perfeito sempre!"
+                    </p>
+                    <div
+                      class="text-yellow-400 mb-2 sm:mb-3 text-sm sm:text-base"
+                    >
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <div class="border-t border-pink-100 pt-2 sm:pt-3">
+                      <h4 class="text-sm sm:text-base font-bold text-gray-800">
+                        Carla Santos
+                      </h4>
+                      <p class="text-xs text-pink-600 font-medium">
+                        Cliente Satisfeita
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="testimonial-slide min-w-full flex-shrink-0 px-2 sm:px-4 flex justify-center items-center"
+              >
+                <div
+                  class="bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-purple-100 w-full max-w-xs sm:max-w-sm lg:max-w-md mx-auto relative overflow-hidden"
+                >
+                  <div
+                    class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500"
+                  ></div>
+                  <div class="text-center">
+                    <div
+                      class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center shadow-lg"
+                    >
+                      <i
+                        class="fas fa-quote-left text-white text-sm sm:text-lg"
+                      ></i>
+                    </div>
+                    <p
+                      class="text-gray-700 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 font-medium px-2"
+                    >
+                      "Excelente atendimento! Preços justos e qualidade
+                      excepcional. Virei cliente fiel!"
+                    </p>
+                    <div
+                      class="text-yellow-400 mb-2 sm:mb-3 text-sm sm:text-base"
+                    >
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <div class="border-t border-purple-100 pt-2 sm:pt-3">
+                      <h4 class="text-sm sm:text-base font-bold text-gray-800">
+                        Juliana Lima
+                      </h4>
+                      <p class="text-xs text-purple-600 font-medium">
+                        Cliente Satisfeita
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="testimonial-slide min-w-full flex-shrink-0 px-2 sm:px-4 flex justify-center items-center"
+              >
+                <div
+                  class="bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-pink-100 w-full max-w-xs sm:max-w-sm lg:max-w-md mx-auto relative overflow-hidden"
+                >
+                  <div
+                    class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-purple-500"
+                  ></div>
+                  <div class="text-center">
+                    <div
+                      class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center shadow-lg"
+                    >
+                      <i
+                        class="fas fa-quote-left text-white text-sm sm:text-lg"
+                      ></i>
+                    </div>
+                    <p
+                      class="text-gray-700 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 font-medium px-2"
+                    >
+                      "Ambiente super aconchegante! Sempre saio de lá me
+                      sentindo uma nova mulher!"
+                    </p>
+                    <div
+                      class="text-yellow-400 mb-2 sm:mb-3 text-sm sm:text-base"
+                    >
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <div class="border-t border-pink-100 pt-2 sm:pt-3">
+                      <h4 class="text-sm sm:text-base font-bold text-gray-800">
+                        Fernanda Oliveira
+                      </h4>
+                      <p class="text-xs text-pink-600 font-medium">
+                        Cliente Satisfeita
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation Buttons -->
+          <button
+            class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all hover:scale-110"
+            onclick="prevTestimonial()"
+          >
+            <i class="fas fa-chevron-left text-pink-600 text-xl"></i>
+          </button>
+          <button
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all hover:scale-110"
+            onclick="nextTestimonial()"
+          >
+            <i class="fas fa-chevron-right text-pink-600 text-xl"></i>
+          </button>
+
+          <!-- Dots Indicator -->
+          <div class="flex justify-center mt-8 space-x-2">
+            <button
+              class="testimonial-dot w-3 h-3 rounded-full bg-pink-300 transition-all"
+              onclick="goToTestimonial(0)"
+            ></button>
+            <button
+              class="testimonial-dot w-3 h-3 rounded-full bg-pink-300 transition-all"
+              onclick="goToTestimonial(1)"
+            ></button>
+            <button
+              class="testimonial-dot w-3 h-3 rounded-full bg-pink-300 transition-all"
+              onclick="goToTestimonial(2)"
+            ></button>
+            <button
+              class="testimonial-dot w-3 h-3 rounded-full bg-pink-300 transition-all"
+              onclick="goToTestimonial(3)"
+            ></button>
+            <button
+              class="testimonial-dot w-3 h-3 rounded-full bg-pink-300 transition-all"
+              onclick="goToTestimonial(4)"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+      <div class="container">
+   <div class="header">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-pink-600 mb-16">
+        </h2>
+       </div>
+    <p class="text-xl md:text-2xl text-gray-700 mb-8 slide-up">
+          Transforme sua beleza com nossos serviços exclusivos
+        </p>
+   </div>
+   <div class="gallery-grid">
+    <div class="video-card">
+     <div class="video-placeholder">
+      <video src="videos/video1.mp4" controls preload="metadata autoplay" style="width: 100%; height: 100%;"></video>
+     
+     </div>
+     <div class="video-info">
+      <h3 class="video-title" id="video1-title">Cortes &amp; Penteados</h3>
+      <p class="video-description">Veja nossos cortes modernos e penteados exclusivos</p>
+     </div>
+    </div>
+    <div class="video-card">
+     <div class="video-placeholder">
+      <video src="videos/video2.mp4" controls preload="metadata autoplay" style="width: 100%; height: 100%;"></video>
+     </div>
+     <div class="video-info">
+      <h3 class="video-title" id="video2-title">Coloração &amp; Mechas</h3>
+      <p class="video-description">Transformações incríveis com cores vibrantes</p>
+     </div>
+    </div>
+    <div class="video-card">
+     <div class="video-placeholder">
+      <video src="videos/video3.mp4" controls preload="metadata autoplay" style="width: 100%; height: 100%;"></video>
+     </div>
+     <div class="video-info">
+      <h3 class="video-title" id="video3-title">Tratamentos Capilares</h3>
+      <p class="video-description">Cuidados especiais para cabelos saudáveis</p>
+     </div>
+    </div>
+    <div class="video-card">
+     <div class="video-placeholder">
+     <video src="videos/video4.mp4" controls preload="metadata autoplay" style="width: 100%; height: 100%;"></video>
+     </div>
+     <div class="video-info">
+      <h3 class="video-title" id="video4-title">Manicure &amp; Pedicure</h3>
+      <p class="video-description">Unhas perfeitas com técnicas profissionais</p>
+     </div>
+    </div>
+   </div>
+   <div class="upload-hint">
+    <p class="upload-hint-text">✨ Dedicaçao e Cuidado</p>
+    <p class="upload-hint-subtext"> Conhecimento a serviço da sua Beleza</p>
+   </div>
+  </div>
+
+    <!-- Agendamento -->
+    <section
+      id="contact"
+      class="py-20 bg-gradient-to-br from-pink-50 to-purple-50"
+    >
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-pink-600 mb-16">
+          Agende Seu Horário
+        </h2>
+        <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-xl">
+          <form id="appointmentForm" class="space-y-6">
+            <div>
+              <label
+                for="name"
+                class="block text-sm font-medium text-gray-700 mb-2"
+                >Nome Completo</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label
+                for="phone"
+                class="block text-sm font-medium text-gray-700 mb-2"
+                >Telefone</label
+              >
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label
+                for="service"
+                class="block text-sm font-medium text-gray-700 mb-2"
+                >Serviço Desejado</label
+              >
+              <select
+                id="service"
+                name="service"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+              >
+                <option value="">Selecione um serviço</option>
+                <option value="Corte Feminino">
+                  Corte Feminino - R$ 45,00
+                </option>
+                <option value="Coloração">Coloração - R$ 80,00</option>
+                <option value="Tratamentos Capilares">
+                  Tratamentos Capilares - R$ 50,00
+                </option>
+                <option value="Manicure">Manicure - R$ 25,00</option>
+                <option value="Design de Sobrancelhas">
+                  Design de Sobrancelhas - R$ 30,00
+                </option>
+                <option value="Limpeza de Pele">
+                  Limpeza de Pele - R$ 60,00
+                </option>
+                <option value="Maquiagem">Maquiagem - R$ 70,00</option>
+                <option value="Massagens Relaxantes">
+                  Massagens Relaxantes - R$ 90,00
+                </option>
+                <option value="SPA dos Pés">SPA dos Pés - R$ 55,00</option>
+                <option value="Alongamento em Gel">
+                  Alongamento em Gel - R$ 65,00
+                </option>
+                <option value="Gel na Tips">Gel na Tips - R$ 45,00</option>
+                <option value="Mold F1">Mold F1 - R$ 75,00</option>
+                <option value="Postiça Realista">
+                  Postiça Realista - R$ 120,00
+                </option>
+                <option value="Fibra de Vidro">
+                  Fibra de Vidro - R$ 55,00
+                </option>
+                <option value="Esmaltação em Gel">
+                  Esmaltação em Gel - R$ 35,00
+                </option>
+                <option value="Blindagem">Blindagem - R$ 40,00</option>
+                <option value="Banho de Gel">Banho de Gel - R$ 50,00</option>
+                <option value="Podologia">Podologia - R$ 70,00</option>
+                <option value="Corte de Unhas dos Pés">
+                  Corte de Unhas dos Pés - R$ 35,00
+                </option>
+                <option value="Tratamento de Calos">
+                  Tratamento de Calos - R$ 45,00
+                </option>
+                <option value="Depilação com Cera">
+                  Depilação com Cera - R$ 40,00
+                </option>
+                <option value="Depilação Fria">
+                  Depilação Fria - R$ 35,00
+                </option>
+                <option value="Depilação a Laser">
+                  Depilação a Laser - R$ 150,00
+                </option>
+                <option value="Peeling Facial">
+                  Peeling Facial - R$ 80,00
+                </option>
+                <option value="Hidratação Facial">
+                  Hidratação Facial - R$ 65,00
+                </option>
+                <option value="Tratamento de Acne">
+                  Tratamento de Acne - R$ 90,00
+                </option>
+                <option value="Drenagem Linfática">
+                  Drenagem Linfática - R$ 85,00
+                </option>
+                <option value="Radiofrequência">
+                  Radiofrequência - R$ 120,00
+                </option>
+                <option value="Criolipólise">Criolipólise - R$ 200,00</option>
+              </select>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label
+                  for="date"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Data</label
+                >
+                <input
+                  type="date"
+                  id="date"
+                  name="date"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label
+                  for="time"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Horário</label
+                >
+                <select
+                  id="time"
+                  name="time"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                >
+                  <option value="">Selecione um horário</option>
+                  <option value="08:00">08:00</option>
+                  <option value="09:00">09:00</option>
+                  <option value="10:00">10:00</option>
+                  <option value="11:00">11:00</option>
+                  <option value="14:00">14:00</option>
+                  <option value="15:00">15:00</option>
+                  <option value="16:00">16:00</option>
+                  <option value="17:00">17:00</option>
+                </select>
+              </div>
+            </div>
+            <div class="bg-pink-50 border-l-4 border-pink-500 p-4 rounded-r-lg">
+              <div class="flex items-start">
+                <i class="fas fa-info-circle text-pink-500 mt-1 mr-3"></i>
+                <div>
+                  <p class="text-sm text-pink-700 font-medium">
+                    Observação Importante:
+                  </p>
+                  <p class="text-sm text-pink-600 mt-1">
+                    Ao clicar no botão abaixo, você será redirecionado para o
+                    WhatsApp com sua solicitação de agendamento já preenchida.
+                    Nossa equipe entrará em contato para confirmar a
+                    disponibilidade do horário escolhido.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-lg font-semibold text-lg hover:from-pink-600 hover:to-purple-600 transition-all transform hover:scale-105"
+            >
+              <i class="fab fa-whatsapp mr-2"></i>
+              Enviar via WhatsApp
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="bg-gradient-to-r from-pink-600 to-purple-600 text-white py-12"
+    >
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-3 gap-8">
+          <div>
+            <h3 class="text-2xl font-bold mb-4">
+              <i class="fas fa-spa mr-2"></i>
+              Salão & Estética
+            </h3>
+            <p class="text-pink-100">
+              Transformando sua beleza com carinho e profissionalismo.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4">Contato</h4>
+            <div class="space-y-2">
+              <p><i class="fas fa-phone mr-2"></i> (71) 9 93477268</p>
+              <p><i class="fas fa-envelope mr-2"></i> contato@salao.com</p>
+              <p>
+                <i class="fas fa-map-marker-alt mr-2"></i> Rua Vitórino Alves Moitinho, 89 - Castelo Branco
+              </p>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4">Redes Sociais</h4>
+            <div class="flex space-x-4">
+              <a
+                href="https://wa.me/5571993477268?text=Olá, vim pelo site e gostaria de agendar um horário."
+                class="bg-green-500 p-3 rounded-full hover:bg-green-600 transition-colors"
+              >
+                <i class="fab fa-whatsapp text-xl"></i>
+              </a>
+              <a
+                href="#"
+                class="bg-pink-500 p-3 rounded-full hover:bg-pink-600 transition-colors"
+              >
+                <i class="fab fa-instagram text-xl"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-pink-400 mt-8 pt-8 text-center">
+          <p>
+            &copy; 2024 Salão de Beleza & Estética. Todos os direitos
+            reservados.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a
+      href="https://wa.me/5571993477268?text=Olá, vim pelo site e gostaria de agendar um horário."
+      target="_blank"
+      rel="noopener noreferrer"
+      class="whatsapp-float"
+    >
+      <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+      // Preloader
+      window.addEventListener("load", function () {
+        setTimeout(() => {
+          document.getElementById("preloader").classList.add("fade-out");
+        }, 2000);
+      });
+
+      // Mobile Menu
+      const hamburger = document.getElementById("hamburger");
+      const hamburgerClose = document.getElementById("hamburgerClose");
+      const mobileMenu = document.getElementById("mobileMenu");
+      const mobileLinks = document.querySelectorAll(".mobile-link");
+
+      function toggleMenu() {
+        hamburger.classList.toggle("active");
+        hamburgerClose.classList.toggle("active");
+        mobileMenu.classList.toggle("active");
+      }
+
+      hamburger.addEventListener("click", toggleMenu);
+      hamburgerClose.addEventListener("click", toggleMenu);
+
+      mobileLinks.forEach((link) => {
+        link.addEventListener("click", function () {
+          hamburger.classList.remove("active");
+          hamburgerClose.classList.remove("active");
+          mobileMenu.classList.remove("active");
+        });
+      });
+
+      // Carousel
+      let currentSlide = 0;
+      const slides = document.querySelectorAll(".carousel-slide");
+      const totalSlides = slides.length;
+
+      function showSlide(index) {
+        const carousel = document.getElementById("carousel");
+        carousel.style.transform = `translateX(-${index * 100}%)`;
+      }
+
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        showSlide(currentSlide);
+      }
+
+      function prevSlide() {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        showSlide(currentSlide);
+      }
+
+      // Auto carousel
+      setInterval(nextSlide, 4000);
+
+      // Testimonials Carousel
+      let currentTestimonial = 0;
+      const testimonialSlides = document.querySelectorAll(".testimonial-slide");
+      const totalTestimonials = testimonialSlides.length;
+      const testimonialDots = document.querySelectorAll(".testimonial-dot");
+
+      function showTestimonial(index) {
+        const testimonialTrack = document.getElementById("testimonialTrack");
+        testimonialTrack.style.transform = `translateX(-${index * 100}%)`;
+
+        // Update dots
+        testimonialDots.forEach((dot, i) => {
+          if (i === index) {
+            dot.classList.remove("bg-pink-300");
+            dot.classList.add("bg-pink-600");
+          } else {
+            dot.classList.remove("bg-pink-600");
+            dot.classList.add("bg-pink-300");
+          }
+        });
+      }
+
+      function nextTestimonial() {
+        currentTestimonial = (currentTestimonial + 1) % totalTestimonials;
+        showTestimonial(currentTestimonial);
+      }
+
+      function prevTestimonial() {
+        currentTestimonial =
+          (currentTestimonial - 1 + totalTestimonials) % totalTestimonials;
+        showTestimonial(currentTestimonial);
+      }
+
+      function goToTestimonial(index) {
+        currentTestimonial = index;
+        showTestimonial(currentTestimonial);
+      }
+
+      // Initialize testimonials carousel
+      showTestimonial(0);
+
+      // Auto testimonials carousel
+      setInterval(nextTestimonial, 5000);
+
+      // Form submission
+      document
+        .getElementById("appointmentForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("name").value;
+          const phone = document.getElementById("phone").value;
+          const service = document.getElementById("service").value;
+          const date = document.getElementById("date").value;
+          const time = document.getElementById("time").value;
+
+          const message = `Olá! Gostaria de agendar um horário:
+            
+Nome: ${name}
+Telefone: ${phone}
+Serviço: ${service}
+Data: ${date}
+Horário: ${time}
+
+Aguardo confirmação!`;
+
+          const whatsappUrl = `https://wa.me/5571993477268?text=${encodeURIComponent(
+            message
+          )}`;
+          window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+        });
+
+      // Smooth scrolling
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Animation on scroll
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      }, observerOptions);
+
+      // Observe elements for animation
+      document.querySelectorAll(".service-card, .hover-scale").forEach((el) => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(30px)";
+        el.style.transition = "all 0.6s ease";
+        observer.observe(el);
+      });
+
+      // Set minimum date to today
+      const today = new Date().toISOString().split("T")[0];
+      document.getElementById("date").setAttribute("min", today);
+
+      // Function to schedule service via WhatsApp
+      function agendarServico(servico, preco) {
+        const message = `Olá! Gostaria de agendar o serviço:
+
+🌸 Serviço: ${servico}
+💰 Preço: ${preco}
+
+Por favor, me informe os horários disponíveis.
+
+Obrigada!`;
+
+        const whatsappUrl = `https://wa.me/5571993477268?text=${encodeURIComponent(
+          message
+        )}`;
+        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      }
+
+      // Function to schedule bridal package via WhatsApp
+      function agendarNoiva() {
+        const message = `Olá! Gostaria de agendar o PACOTE DIA DAS NOIVAS:
+
+👰 PACOTE COMPLETO - R$ 350,00
+
+✨ SERVIÇOS INCLUSOS:
+• Penteado de Noiva
+• Maquiagem Profissional  
+• Design de Sobrancelhas
+• Manicure & Pedicure
+• Limpeza de Pele
+• Hidratação Facial
+• Massagem Relaxante
+• Teste de Maquiagem
+
+💍 Preciso agendar com antecedência para meu casamento.
+
+Por favor, me informem a disponibilidade e os detalhes.
+
+Muito obrigada! 💕`;
+
+        const whatsappUrl = `https://wa.me/5571993477268?text=${encodeURIComponent(
+          message
+        )}`;
+        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      }
+
+      // Function to load bridal image
+      function carregarImagemNoiva(urlImagem) {
+        const img = document.getElementById("noivaImage");
+        const placeholder = document.getElementById("noivaPlaceholder");
+
+        if (urlImagem && urlImagem.trim() !== "") {
+          img.src = urlImagem;
+          img.style.display = "block";
+          placeholder.style.display = "none";
+        }
+      }
+
+      // Example: To load an image, call this function with the image URL
+      // carregarImagemNoiva('https://example.com/noiva-image.jpg');
+    </script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'993d8193e1da4812',t:'MTc2MTM1MTE4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
